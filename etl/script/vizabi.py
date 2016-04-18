@@ -185,14 +185,19 @@ def generate_metadata(c_all, concepts, meta2, area, outdir, oneset=False):
         q_10 = np.round(len(values_sorted) / 10)
         q_90 = -1 * q_10 - 1
 
+        q_05 = np.round(len(values_sorted) / 20)
+        q_95 = -1 * q_05 - 1
+
         # values_sorted = values_sorted[q_10:q_90]
         # domain_quantiles_10_90 = [values_sorted.min(), values_sorted.max()]
 
         domain_quantiles_10_90 = [values_sorted[q_10], values_sorted[q_90]]
+        domain_quantiles_05_95 = [values_sorted[q_05], values_sorted[q_95]]
 
         indb['indicatorsDB'][i].update({
             'domain': dm, 'availability': av,
-            'domain_quantiles_10_90': domain_quantiles_10_90
+            'domain_quantiles_10_90': domain_quantiles_10_90,
+            'domain_quantiles_05_95': domain_quantiles_05_95
         })
 
     # newdb = OrderedDict([[key, indb['indicatorsDB'][key]] for key in sorted(indb['indicatorsDB'].keys())])
