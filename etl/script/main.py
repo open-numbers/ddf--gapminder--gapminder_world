@@ -40,7 +40,7 @@ w4r_f = 'ddf--entities--geo--world_4region.csv'
 dps_f = 'indicators'
 
 
-def main(source_dir, out_dir, make='all'):
+def main(source_dir, ddf_dir, vizabi_dir, make='all'):
     # read files
     idt = pd.read_json(os.path.join(source_dir, idt_f))
     gps = pd.read_json(os.path.join(source_dir, gps_f))
@@ -57,7 +57,7 @@ def main(source_dir, out_dir, make='all'):
     mdata = json.load(open(os.path.join(source_dir, mdata_f)))
 
     if make == 'all':
-        make = ['entities', 'datapoints', 'concepts', 'metadata', 'enjson']
+        make = ['entities', 'datapoints', 'concepts', 'index', 'metadata', 'enjson']
 
     # build ddf
     if 'entities' in make:
@@ -66,17 +66,17 @@ def main(source_dir, out_dir, make='all'):
         print('creating entities...')
         g = extract_entities_groups(regs, gps)
         for k, v in g.items():
-            path = os.path.join(out_dir, 'ddf/', 'ddf--entities--geo--'+k+'.csv')
+            path = os.path.join(ddf_dir, 'ddf--entities--geo--'+k+'.csv')
             v.to_csv(path, index=False, encoding='utf-8')
 
         # 2. entities for countries
         c = extract_entities_country(regs, geo, gps, geo_sg)
-        path = os.path.join(out_dir, 'ddf', 'ddf--entities--geo--country.csv')
+        path = os.path.join(ddf_dir, 'ddf--entities--geo--country.csv')
         c.to_csv(path, index=False, encoding='utf-8')
 
         # just copy the global and world_4region entities
-        copy(os.path.join(source_dir, global_f), os.path.join(out_dir, 'ddf'))
-        copy(os.path.join(source_dir, w4r_f), os.path.join(out_dir, 'ddf'))
+        copy(os.path.join(source_dir, global_f), ddf_dir)
+        copy(os.path.join(source_dir, w4r_f), ddf_dir)
 
     # 3. datapoints
     if 'datapoints' in make:
@@ -86,7 +86,7 @@ def main(source_dir, out_dir, make='all'):
         geomap = extract_entities_country(regs, geo, gps, geo_sg, geo_map=True)
         # dp = extract_datapoints(os.path.join(source_dir, dps_f), idt, concepts_, geo)
         for k, dp in extract_datapoints(os.path.join(source_dir, dps_f), dpp, idt, concepts_, geo, geomap):
-            path = os.path.join(out_dir, 'ddf', 'ddf--datapoints--'+k+'--by--geo--time.csv')
+            path = os.path.join(ddf_dir, 'ddf--datapoints--'+k+'--by--geo--time.csv')
             dp.to_csv(path, index=False, encoding='utf-8')
 
     # 4. concepts
@@ -94,7 +94,7 @@ def main(source_dir, out_dir, make='all'):
         make.remove('concepts')
         print('creating concepts...')
         cs = extract_concepts(concepts, geo, gps, sgdc, mdata)
-        path = os.path.join(out_dir, 'ddf', 'ddf--concepts.csv')
+        path = os.path.join(ddf_dir, 'ddf--concepts.csv')
         cs.to_csv(path, index=False, encoding='utf-8')
 
     # 5. update en.json
@@ -104,7 +104,7 @@ def main(source_dir, out_dir, make='all'):
         concepts_ = cleanup_concepts(concepts, drop_placeholder=True)
         cs = extract_concepts(concepts, geo, gps, sgdc, mdata)
         new_enj = update_enjson(enj, cs, concepts_)
-        with open(os.path.join(out_dir, 'vizabi', 'en.json'), 'w') as f:
+        with open(os.path.join(vizabi_dir, 'en.json'), 'w') as f:
             json.dump(new_enj, f, indent=1, sort_keys=True)
             f.close()
 
@@ -114,23 +114,22 @@ def main(source_dir, out_dir, make='all'):
         print('updating metadata.json')
         concepts_ = cleanup_concepts(concepts, drop_placeholder=True)
         cs = extract_concepts(concepts, geo, gps, sgdc, mdata)
-        md = generate_metadata(cs, concepts_, mdata, area, out_dir)
-        with open(os.path.join(out_dir, 'vizabi', 'metadata.json'), 'w') as f:
+        md = generate_metadata(cs, concepts_, mdata, area, ddf_dir)
+        with open(os.path.join(vizabi_dir, 'metadata.json'),  'w') as f:
             json.dump(md, f, indent=1)
             f.close()
 
         print('updating metadata_one_set.json')
-        md_one = generate_metadata(cs, concepts_, mdata, area, out_dir, oneset=True)
-        with open(os.path.join(out_dir, 'vizabi', 'metadata_one_set.json'), 'w') as f:
+        md_one = generate_metadata(cs, concepts_, mdata, area, ddf_dir, oneset=True)
+        with open(os.path.join(vizabi_dir, 'metadata_one_set.json'), 'w') as f:
             json.dump(md_one, f, indent=1)
             f.close()
 
     # 7. index file
     if 'index' in make:
         make.remove('index')
-        print('generating index file')
-        path = os.path.join(out_dir, 'ddf')
-        create_index_file(path, os.path.join(path, 'ddf--index.csv'))
+        print('generating index file...')
+        create_index_file(ddf_dir, os.path.join(ddf_dir, 'ddf--index.csv'))
 
     if len(make) > 0:
         print('command not recognized: ' + str(make))
@@ -142,9 +141,13 @@ if __name__ == '__main__':
     import sys
     from update import update_all_source
 
+    source_dir = '../source'
+    ddf_dir = '../../'
+    vizabi_dir = '../output/vizabi'
+
     # update source
     print('updating source files...')
-    update_all_source('../source/')
+    update_all_source(source_dir)
 
     # make ddf
     make = sys.argv[1:]
@@ -152,15 +155,7 @@ if __name__ == '__main__':
         make = 'all'
     elif 'all' in make:
         make = 'all'
-    r = main('../source/', '../output/', make)
+
+    r = main(source_dir, ddf_dir, vizabi_dir, make)
     if r > 0:
-        print('ddf created successfully. cleaning up...')
-
-    # move the outputs into root dir of repo
-    files = os.listdir('../output/ddf/')
-    for f in files:
-        src = os.path.join('../output/ddf/', f)
-        dst = os.path.join('../../', f)
-        os.replace(src, dst)
-
-    print('Done.')
+        print('Done.')

@@ -7,6 +7,10 @@ from io import BytesIO
 # github token. change to your token please.
 token = ''
 
+# add 'token' at the beginning before sending to server as
+# http a header
+token = 'token ' + token
+
 # files:
 files = {}
 
