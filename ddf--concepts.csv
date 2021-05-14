@@ -1,4 +1,7 @@
 concept,name,concept_type,domain,indicator_url,color,scales,drill_up,unit,interpolation,description
+gender,Gender,entity_domain,,,,"[""ordinal""]",,,,
+literacy_rate_youth,literacy rate for age 15 - 24,measure,,,"[""linear"", ""log""]",,,,,literacy rate for age 15 - 24
+literacy_rate_adult,literacy rate for age above 15,measure,,,"[""linear"", ""log""]",,,,,literacy rate for age above 15
 domain,Domain,string,,,,,,,,
 scales,Scales,string,,,,,,,,
 drill_up,Drill ups,string,,,,,,,,
