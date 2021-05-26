@@ -1,7 +1,7 @@
 concept,name,concept_type,domain,indicator_url,color,scales,drill_up,unit,interpolation,description
 gender,Gender,entity_domain,,,,"[""ordinal""]",,,,
-literacy_rate_youth,"Literacy rate, adults",measure,,,,"[""linear"", ""log""]",,,,"Literacy rate, adults"
-literacy_rate_adult,"Literacy rate, youth",measure,,,,"[""linear"", ""log""]",,,,"Literacy rate, youth"
+literacy_rate_youth,"Literacy rate, youth",measure,,,,"[""linear"", ""log""]",,,,"Literacy rate, adults"
+literacy_rate_adult,"Literacy rate, adults",measure,,,,"[""linear"", ""log""]",,,,"Literacy rate, youth"
 domain,Domain,string,,,,,,,,
 scales,Scales,string,,,,,,,,
 drill_up,Drill ups,string,,,,,,,,
