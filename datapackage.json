@@ -7,7 +7,7 @@
     "description": "",
     "author": "",
     "license": "",
-    "created": "2021-05-24T06:40:35.069932+00:00",
+    "created": "2024-08-08T07:31:27.239981+00:00",
     "resources": [
         {
             "name": "ddf--concepts",
@@ -48,7 +48,9 @@
                         "name": "description"
                     }
                 ],
-                "primaryKey": "concept"
+                "primaryKey": [
+                    "concept"
+                ]
             }
         },
         {
@@ -11348,7 +11350,9 @@
                         "name": "name"
                     }
                 ],
-                "primaryKey": "gender"
+                "primaryKey": [
+                    "gender"
+                ]
             }
         },
         {
@@ -11447,7 +11451,9 @@
                         "name": "longitude"
                     }
                 ],
-                "primaryKey": "country"
+                "primaryKey": [
+                    "country"
+                ]
             }
         },
         {
@@ -11468,7 +11474,9 @@
                         "name": "is--g77_and_oecd_countries"
                     }
                 ],
-                "primaryKey": "g77_and_oecd_countries"
+                "primaryKey": [
+                    "g77_and_oecd_countries"
+                ]
             }
         },
         {
@@ -11489,7 +11497,9 @@
                         "name": "is--geographic_regions"
                     }
                 ],
-                "primaryKey": "geographic_regions"
+                "primaryKey": [
+                    "geographic_regions"
+                ]
             }
         },
         {
@@ -11510,7 +11520,9 @@
                         "name": "is--geographic_regions_in_4_colors"
                     }
                 ],
-                "primaryKey": "geographic_regions_in_4_colors"
+                "primaryKey": [
+                    "geographic_regions_in_4_colors"
+                ]
             }
         },
         {
@@ -11534,7 +11546,9 @@
                         "name": "longitude"
                     }
                 ],
-                "primaryKey": "geo"
+                "primaryKey": [
+                    "geo"
+                ]
             }
         },
         {
@@ -11555,7 +11569,9 @@
                         "name": "is--income_groups"
                     }
                 ],
-                "primaryKey": "income_groups"
+                "primaryKey": [
+                    "income_groups"
+                ]
             }
         },
         {
@@ -11576,7 +11592,9 @@
                         "name": "is--landlocked"
                     }
                 ],
-                "primaryKey": "landlocked"
+                "primaryKey": [
+                    "landlocked"
+                ]
             }
         },
         {
@@ -11597,7 +11615,9 @@
                         "name": "is--main_religion_2008"
                     }
                 ],
-                "primaryKey": "main_religion_2008"
+                "primaryKey": [
+                    "main_religion_2008"
+                ]
             }
         },
         {
@@ -11633,7 +11653,9 @@
                         "name": "color"
                     }
                 ],
-                "primaryKey": "geo"
+                "primaryKey": [
+                    "geo"
+                ]
             }
         }
     ],
